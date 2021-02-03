@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://wsproxy.ibit.org" xmlns:impl="http://wsproxy.ibit.org" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://wsproxy.ibit.org" xmlns="http://www.w3.org/2001/XMLSchema">
+
+			<!--<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>-->
+
+			<!--**************** getEstratificacion ****************-->
+			<xsd:element name="getEstratificacion" type="impl:getEstratificacionRequestType"/>
+
+			<xsd:complexType name="getEstratificacionRequestType">
+				<xsd:sequence>
+					<xsd:element minOccurs="0" name="securityToken" type="impl:auth-objectsType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="applicant" type="impl:applicantType"/>
+				</xsd:sequence>
+				<xsd:attribute name="cipAutonomico" type="xsd:string" use="required"/>
+				<xsd:attribute name="timestamp" type="xsd:dateTime"/>
+				<xsd:attribute name="lang" type="xsd:string"/>
+			</xsd:complexType>
+   
+			<!--**************** getEstratificacionResponse ****************-->
+			<xsd:element name="getEstratificacionResponse" type="impl:getEstratificacionResponseType"/>
+
+			<xsd:complexType name="getEstratificacionResponseType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="status" type="impl:statusType"/>
+					<xsd:element maxOccurs="1" minOccurs="0" name="estratificacion" type="impl:estratificacionType"/>
+				</xsd:sequence>
+				<xsd:attribute name="cipAutonomico" type="xsd:string" use="required"/>
+				<xsd:attribute name="timestamp" type="xsd:dateTime"/>
+				<xsd:attribute name="lang" type="xsd:string"/>
+			</xsd:complexType>
+			
+			<!--**************** setEstratificacion ****************-->
+			<xsd:element name="setEstratificacion" type="impl:setEstratificacionRequestType"/>
+
+			<xsd:complexType name="setEstratificacionRequestType">
+				<xsd:sequence>
+					<xsd:element minOccurs="0" name="securityToken" type="impl:auth-objectsType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="applicant" type="impl:applicantType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="setEstratificacionType" type="impl:setEstratificacionType"/>
+				</xsd:sequence>
+				<xsd:attribute name="cipAutonomico" type="xsd:string" use="required"/>
+				<xsd:attribute name="timestamp" type="xsd:dateTime"/>
+				<xsd:attribute name="lang" type="xsd:string"/>
+			</xsd:complexType>
+
+			<!--**************** setEstratificacionResponse ****************-->
+			<xsd:element name="setEstratificacionResponse" type="impl:setEstratificacionResponseType"/>
+
+			<xsd:complexType name="setEstratificacionResponseType">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" name="status" type="impl:statusType"/>
+				     <xsd:element maxOccurs="1" minOccurs="0" name="estratificacion" type="impl:estratificacionType"/>
+				</xsd:sequence>
+				<xsd:attribute name="cipAutonomico" type="xsd:string" use="required"/>
+				<xsd:attribute name="timestamp" type="xsd:dateTime"/>
+				<xsd:attribute name="lang" type="xsd:string"/>
+			</xsd:complexType>
+
+			<!--************************ Tipus de dades ***********************************************************-->
+			<xsd:complexType name="statusType">
+				<xsd:sequence>
+					<xsd:element name="type" type="impl:traceType"/>
+					<xsd:element name="id" type="xsd:string"/>
+					<xsd:element name="description" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="estratificacionType">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" name="tpmId" type="xsd:string"/>
+					<xsd:element minOccurs="1" name="tpmEstratificacion" nillable="true" type="impl:numType"/>
+					<xsd:element minOccurs="1" name="tpmEstratificacionText" nillable="true" type="xsd:string"/>
+					<xsd:element minOccurs="1" name="tpmAlertaPcaValMan" type="impl:stringTypePca"/>
+					<xsd:element minOccurs="1" name="tpmAlertaPccValMan" type="impl:stringType"/>
+					<xsd:element minOccurs="0" name="tpmUserMod" nillable="true" type="xsd:string"/>	
+					<xsd:element minOccurs="0" name="tpmusermodnom" nillable="true" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="tpmusermodap1" nillable="true" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="tpmusermodap2" nillable="true" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="tpmusermodcat" nillable="true" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="tpmusermodloc" nillable="true" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="tpmFecMod" nillable="true" type="xsd:dateTime"/>
+					<xsd:element minOccurs="0" name="tpmVerifyPca" nillable="true" type="impl:stringTypeVerify"/>			
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="setEstratificacionType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="alertaPca" nillable="true" type="impl:stringTypePca"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="alertaPcc" nillable="true" type="impl:stringType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="VerifyPca" nillable="true" type="impl:stringTypeVerify"/>	
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:simpleType name="numType">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value=""/>
+					<xsd:enumeration value="1"/>
+					<xsd:enumeration value="2"/>
+					<xsd:enumeration value="3"/>
+					<xsd:enumeration value="4"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="stringType">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="N"/>
+					<xsd:enumeration value="Y"/>
+					<xsd:enumeration value=""/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="stringTypePca">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="Y"/>
+					<xsd:enumeration value="D"/>
+					<xsd:enumeration value=""/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		  <xsd:simpleType name="stringTypeVerify">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="Y"/>
+					<xsd:enumeration value=""/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="traceType">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="info"/>
+					<xsd:enumeration value="err"/>
+					<xsd:enumeration value="war"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:complexType name="applicantType">
+				<xsd:all>
+					<xsd:element maxOccurs="1" minOccurs="1" name="application" type="xsd:string"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="user" type="xsd:string"/>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="auth-objectsType">
+				<xsd:choice maxOccurs="1" minOccurs="0">
+					<xsd:element name="dni" type="impl:dniType"/>
+					<xsd:element name="fnmt" type="impl:fnmtType"/>
+				</xsd:choice>
+			</xsd:complexType>
+			<xsd:complexType name="dniType">
+				<xsd:sequence>
+					<xsd:element minOccurs="0" name="certificate" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="expired-date" type="xsd:date"/>
+				</xsd:sequence>
+				<xsd:attribute name="id" type="xsd:string" use="optional"/>
+			</xsd:complexType>
+			<xsd:complexType name="fnmtType">
+				<xsd:sequence>
+					<xsd:element name="certificate" type="impl:certificateType"/>
+					<xsd:element name="expired-date" type="xsd:date"/>
+				</xsd:sequence>
+				<xsd:attribute name="source" type="xsd:string" use="optional"/>
+				<xsd:attribute name="id" type="xsd:string" use="optional"/>
+			</xsd:complexType>
+			<xsd:complexType name="certificateType">
+				<xsd:simpleContent>
+					<xsd:extension base="xsd:string">
+						<xsd:attribute name="source" type="xsd:string" use="optional"/>
+					</xsd:extension>
+				</xsd:simpleContent>
+			</xsd:complexType>
+		</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="setEstratificacionRequest">
+    <wsdl:part name="parameters" element="impl:setEstratificacion">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEstratificacionResponse">
+    <wsdl:part name="parameters" element="impl:getEstratificacionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setEstratificacionResponse">
+    <wsdl:part name="parameters" element="impl:setEstratificacionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEstratificacionRequest">
+    <wsdl:part name="parameters" element="impl:getEstratificacion">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="pcaPcc">
+    <wsdl:operation name="getEstratificacion">
+      <wsdl:input name="getEstratificacionRequest" message="impl:getEstratificacionRequest">
+    </wsdl:input>
+      <wsdl:output name="getEstratificacionResponse" message="impl:getEstratificacionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setEstratificacion">
+      <wsdl:input name="setEstratificacionRequest" message="impl:setEstratificacionRequest">
+    </wsdl:input>
+      <wsdl:output name="setEstratificacionResponse" message="impl:setEstratificacionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="apiPcaPccSoapBinding" type="impl:pcaPcc">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getEstratificacion">
+      <wsdlsoap:operation soapAction="http://wsproxy.ibit.org/getEstratificacion"/>
+      <wsdl:input name="getEstratificacionRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEstratificacionResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setEstratificacion">
+      <wsdlsoap:operation soapAction="http://wsproxy.ibit.org/setEstratificacion"/>
+      <wsdl:input name="setEstratificacionRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setEstratificacionResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="pcaPccService">
+    <wsdl:port name="pcaPcc" binding="impl:apiPcaPccSoapBinding">
+      <wsdlsoap:address location="http://proxy-des.ssib.es:9080/porpacCorp/services/pcaPccService/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
